@@ -2,7 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import Header from "../header.tsx";
 import ThisMonth from "./thisMonth/thisMonth.tsx";
-import Loader from "../loader.tsx";
+// import Loader from "../loader.tsx";
+import ExpensesByType from "./expensesByType/expensesByType.tsx";
+import Savings from "./savings/savings.tsx";
 
 const Container = styled.section`
     margin-left: 15vw;
@@ -18,6 +20,7 @@ const Container = styled.section`
 
 const LeftCol = styled.div`
     width: 40%;
+    height: 100%;
     padding: 0 5%;
     display: flex;
     flex-direction: column;
@@ -26,8 +29,8 @@ const LeftCol = styled.div`
 `
 
 const RightCol = styled.div`
-    width: 48%;
-    padding: 0 1%;
+    width: 40%;
+    padding: 0 5%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -43,9 +46,10 @@ const OverView: React.FC = () => {
             {/* <Loader /> */}
             <LeftCol>
                 <ThisMonth />
+                <Savings />
             </LeftCol>
             <RightCol>
-hd
+                <ExpensesByType />
             </RightCol>
         </Container>
     )

@@ -18,7 +18,7 @@ const Container = styled.section`
 
 const Name = styled.p`
     position: absolute;
-    top: 10%;
+    top: 20px;
     left: 5%;
     font-size: 1em;
     color: white;
