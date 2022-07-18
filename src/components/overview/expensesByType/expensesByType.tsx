@@ -41,15 +41,21 @@ const ExpensesByType: React.FC = () => {
 // entertaiment   
 
 
-const expensesDataObj: { [key: string]: number } = {
+interface expensesArr {
+    [index: string]: number;
+}
+
+const expensesDataObj: expensesArr = {
         groceries: 1500,
         transportation: 300,
         Apparel: 500,
         rent: 2000
     }
 
+  
+
     // turning data object to an array filled with objects.
-    const expensesArray = Object.keys(expensesDataObj).map((key: string): number => {
+    const expensesArray: expensesArr[] = Object.keys(expensesDataObj).map((key) => {
         return { [key]: expensesDataObj[key] };
     });
 
