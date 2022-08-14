@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 
 const NavStyle = styled.nav`
     position: fixed;
@@ -22,12 +23,13 @@ const Item = styled(Link)`
 `
 
 const Nav: React.FC = () => {
+
     return(
         <NavStyle>
-            <Item to="/">OverView</Item>
+            <Item to="/add">Add</Item>
             <Item to="/overview">OverView</Item>
-            <Item to="/">OverView</Item>
-            <Item to="/">OverView</Item>
+            <Item to="/login">login</Item>
+            <Item to="/register">register</Item>
             <Item to="/">OverView</Item>
 
         </NavStyle>

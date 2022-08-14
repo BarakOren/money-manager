@@ -3,12 +3,16 @@ import OverView from './components/overview/overview.tsx';
 import { Routes } from 'react-router';
 import { Route } from 'react-router';
 import React, {useEffect} from "react";
+import Register from './components/register/resgister';
+import Login from "./components/register/login"
+import Add from './components/add/add';
 
 const GlobalStyle = createGlobalStyle`
   body {
     margin: 0;
     padding: 0;
-    background:  #262626;
+    background-color: #161719;
+    /* background:  #262626; */
     font-family: 'Open Sans', sans-serif;
     overflow-x: hidden;
   }
@@ -26,7 +30,10 @@ function App() {
     <Container>
      <GlobalStyle />
       <Routes>
-       <Route path="/overview" element={<OverView />} />
+        <Route path="/overview" element={<OverView />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/add" element={<Add />} />
       </Routes>
     </Container>
   );
