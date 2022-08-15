@@ -1,4 +1,4 @@
-export const selectCategory = category => ({
-    type: "SELECT_CATEGORY",
-    payload: category
+export const setUser = id => ({
+    type: "SET_USER",
+    payload: id
 });

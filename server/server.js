@@ -73,7 +73,6 @@ app.get('/api/quote', async (req, res) => {
 		const decoded = jwt.verify(token, 'secret123')
 		const email = decoded.email
 		const user = await User.findOne({ email: email })
-    console.log(user)
 		return res.json({ status: 'ok', quote: user })
 	} catch (error) {
 		console.log(error)
@@ -107,11 +106,13 @@ app.post('/api/addExpense', async (req, res) => {
 		const id = decoded.id
 		const user = await User.findOne({ id: id })
 
-    await user.updateOne(
-      {"$push":{"expenses": {type: req.body.expenseType, amount: req.body.amount}}}
+		// console.log(`${req.body.type.toLowerCase()}s`, req.body.category, req.body.amount )
+    	const type = `${req.body.type.toLowerCase()}s`
+		await User.updateOne(
+      		{"$push":{[type]: {category: req.body.category, amount: req.body.amount}}}
 		)
 
-    return res.json({ status: "ok", info: user})
+		return res.json({ status: "ok", user: user})
   } catch (e) {
     console.log(e)
     res.json({ status: 'error', error: 'invalid token' })

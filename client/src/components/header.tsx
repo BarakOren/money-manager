@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { useLocation } from 'react-router-dom';
+import { useSelector } from "react-redux";
 
 
 const HeaderContainer = styled.header`
@@ -29,11 +30,12 @@ const Welcome = styled.p`
 
 const Header: React.FC = () => {
     const location = useLocation();
+    const name: string = useSelector(state => state.userReducer.user.name) || ""
 
     return(
         <HeaderContainer>
             <Location>{location.pathname.substring(1, location.pathname.length).toUpperCase()}</Location>
-            <Welcome>Welcome Alex</Welcome>
+            <Welcome>Welcome {name}</Welcome>
         </HeaderContainer>
     )
 }

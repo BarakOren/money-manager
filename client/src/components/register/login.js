@@ -2,6 +2,8 @@ import React, {useState} from "react";
 import styled, {keyframes} from "styled-components"
 import { useNavigate } from "react-router-dom";
 import MiniSpinner from "../spinners/mini-spinner.tsx";
+import {useDispatch} from "react-redux"
+import { setUser } from "../../redux/user/actions";
 
 const Container = styled.div`
     width: 85vw;
@@ -100,7 +102,7 @@ const Login = () => {
     const [password, setPassword] = useState("bbbb2435")
     const [loading, setLoading] = useState(false)
     let navigate = useNavigate();
-
+    const dispatch = useDispatch();
     async function login(event) {
 		event.preventDefault()
         setLoading(true)
@@ -118,6 +120,7 @@ const Login = () => {
 		const data = await response.json()
 		if (data.user) {
 			localStorage.setItem('token', data.user)
+            dispatch(setUser(data.user))
 			return navigate('/overview')
 		} else {
 			alert('Please check your username and password')

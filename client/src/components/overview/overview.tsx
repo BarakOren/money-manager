@@ -5,16 +5,17 @@ import ThisMonth from "./thisMonth/thisMonth.tsx";
 // import Loader from "../loader.tsx";
 import ExpensesByType from "./expensesByType/expensesByType.tsx";
 import Savings from "./savings/savings.tsx";
-import jwt from "jsonwebtoken";
-import { isExpired, decodeToken } from "react-jwt";
-import { useNavigate } from "react-router-dom";
+import {useSelector} from "react-redux"
+import {useNavigate} from "react-router-dom"
+import AddButton from "../addbutton";
+import Add from "../add/add";
 
 const Container = styled.section`
+    display: flex;
     margin-left: 15vw;
     width: 85%;
     height: 100vh;
     background-color: #161719;
-    display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
@@ -42,45 +43,24 @@ const RightCol = styled.div`
 
 
 
-const OverView: React.FC = () => {
-    let navigate = useNavigate();
-    const [quote, setQuote] = useState('')
+const OverView: React.FC = ({loading}) => {
+    console.log(loading)
+     const currentUser: Object = useSelector(state => state.userReducer.user)
+     const navigate = useNavigate()
+    useEffect(() => {
+        if(!loading){
+            if(currentUser === null){
+                return navigate("/login")
+            }
+        }
+       
+    }, [currentUser, navigate])
 
-    async function populateQuote() {
-		const req = await fetch('http://localhost:5000/api/quote', {
-			headers: {
-				'x-access-token': localStorage.getItem('token'),
-                
-			},
-		})
-
-		const data = await req.json()
-		if (data.status === 'ok') {
-			setQuote(data.quote)
-		} else {
-			alert(data.error)
-		}
-	}
-      
-      useEffect(() => {
-          const token = localStorage.getItem('token')
-          if(token){
-              const user = decodeToken(token)
-              console.log(user)
-              if(!user){
-                  localStorage.removeItem('token')
-                  return navigate("/login");
-              } else {
-                  populateQuote()
-              }
-          }
-      }, [])
-     
-     
     return (
-        <Container>
+        <Container >
+            {!loading &&
+            <>
             <Header />
-            {/* <Loader /> */}
             <LeftCol>
                 <ThisMonth />
                 <Savings />
@@ -88,6 +68,9 @@ const OverView: React.FC = () => {
             <RightCol>
                 <ExpensesByType />
             </RightCol>
+            <AddButton />
+            </>
+            }
         </Container>
     )
 }

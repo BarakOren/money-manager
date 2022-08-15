@@ -3,7 +3,7 @@ import React from "react";
 import styled from "styled-components";
 import OverviewBar from "./overviewBar.tsx";
 import {user} from "../fakeData.js"
-
+import { useSelector } from "react-redux";
 
 const Container = styled.section`
     width: 100%;
@@ -39,6 +39,8 @@ const Amount = styled.h1`
 const ThisMonth: React.FC = () => {
 
     const {expenses, incomes} = user
+    const currentUser: Object = useSelector(state => state.userReducer.user)
+
     const totalExpenses: number = expenses.reduce((a, b) => a + b.spent, 0);
     const totalIncomes: number = incomes.reduce((a, b) => a + b.income, 0); 
 

@@ -4,10 +4,10 @@ const INITIAL_STATE = {
 
 export const userReducer = (state = INITIAL_STATE, action) => {
     switch(action.type){
-        case "SELECT_CATEGORY":
+        case "SET_USER":
             return {
                 ...state,
-                category: action.payload
+                user: action.payload
             }
         default:
             return state;
