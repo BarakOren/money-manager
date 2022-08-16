@@ -44,7 +44,6 @@ const RightCol = styled.div`
 
 
 const OverView: React.FC = ({loading}) => {
-    console.log(loading)
      const currentUser: Object = useSelector(state => state.userReducer.user)
      const navigate = useNavigate()
     useEffect(() => {
@@ -58,7 +57,7 @@ const OverView: React.FC = ({loading}) => {
 
     return (
         <Container >
-            {!loading &&
+            {!loading && currentUser &&
             <>
             <Header />
             <LeftCol>

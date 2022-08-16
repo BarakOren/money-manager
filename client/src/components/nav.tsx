@@ -14,24 +14,39 @@ const NavStyle = styled.nav`
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: flex-start;
+    gap: 30px 0;
 `
 
 const Item = styled(Link)`
     text-decoration: none;
     color: #ffffff;
+    font-size: 20px;
+    transition: .2s all;
+
+    &:hover{
+        text-shadow: 0 0 3px white;
+    }
 `
 
 const Nav: React.FC = () => {
 
+    const currenctUser = useSelector(state => state.userReducer.user)
+
     return(
         <NavStyle>
-            <Item to="/add">Add</Item>
-            <Item to="/overview">OverView</Item>
-            <Item to="/login">login</Item>
-            <Item to="/register">register</Item>
-            <Item to="/">OverView</Item>
-
+            {currenctUser ? 
+                <>
+                <Item to="/overview">OverView</Item>
+                <Item to="/add">Add Income\Expense</Item>
+                <Item to="/add-saving-plan">Add Saving Plan</Item>
+                </>
+                :
+                <>
+                <Item to="/login">login</Item>
+                <Item to="/register">register</Item>
+                </>
+            }
         </NavStyle>
     )
 }

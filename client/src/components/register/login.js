@@ -18,7 +18,7 @@ const Container = styled.div`
 
 const Box = styled.div`
     width: 30%;
-    height: 200px;
+    height: 270px;
     align-items: center;
     background-color: #101113;
     padding: 50px;
@@ -96,41 +96,61 @@ const Button = styled.button`
     }
 `
 
+const Error = styled.p`
+    font-size: 16px;
+    color: rgb(201, 62, 62);
+    width: 100%;
+    text-align: center;
+`
+
 const Login = () => {
 
     const [email, setEmail] = useState("barakoren5@gmail.com")
     const [password, setPassword] = useState("bbbb2435")
     const [loading, setLoading] = useState(false)
+    const [error, setError] = useState(null)
+
     let navigate = useNavigate();
     const dispatch = useDispatch();
+    
     async function login(event) {
 		event.preventDefault()
+        setError(null)
         setLoading(true)
-		const response = await fetch('http://localhost:5000/api/login', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({
-				email,
-				password,
-			}),
-		})
-
-		const data = await response.json()
-		if (data.user) {
-			localStorage.setItem('token', data.user)
-            dispatch(setUser(data.user))
-			return navigate('/overview')
-		} else {
-			alert('Please check your username and password')
-		}
+        try {
+            const response = await fetch('http://localhost:5000/api/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email,
+                    password,
+                }),
+            })
+    
+            const data = await response.json()
+            if (data.user) {
+                localStorage.setItem('token', data.user)
+                dispatch(setUser(data.user))
+                return navigate('/overview')
+            } else {
+                alert('Please check your username and password')
+            }
+        } catch (e) { 
+            console.log(e)
+            setLoading(false)
+            setError("Sorry.. something went wrong.")
+        }
+ 		
 	}
 
     return (
         <Container>
             <Box>
+                
                 {loading && <MiniSpinner />}
+                
                 {!loading &&
                 <Form onSubmit={login}>
                 <Title>Login</Title>
@@ -150,6 +170,7 @@ const Login = () => {
                     placeholder="Password"
                 />
                 <Button type="submit">submit</Button>
+                {!loading && error && <Error>{error}</Error>}
                 </Form>
                 }
             </Box>

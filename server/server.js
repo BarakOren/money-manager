@@ -105,13 +105,10 @@ app.post('/api/addExpense', async (req, res) => {
 		const decoded = jwt.verify(token, 'secret123')
 		const id = decoded.id
 		const user = await User.findOne({ id: id })
-
-		// console.log(`${req.body.type.toLowerCase()}s`, req.body.category, req.body.amount )
     	const type = `${req.body.type.toLowerCase()}s`
 		await User.updateOne(
-      		{"$push":{[type]: {category: req.body.category, amount: req.body.amount}}}
+      		{"$push":{[type]: {uid: req.body.uid, category: req.body.category, amount: parseInt(req.body.amount)}}}
 		)
-
 		return res.json({ status: "ok", user: user})
   } catch (e) {
     console.log(e)
@@ -119,8 +116,6 @@ app.post('/api/addExpense', async (req, res) => {
   }
   
 })
-
-
 
 app.post('/api/clearExpenses', async (req, res) => {
 	const token = req.headers['x-access-token']
@@ -131,10 +126,31 @@ app.post('/api/clearExpenses', async (req, res) => {
 		const user = await User.findOne({ id: id })
 
     await user.updateOne(
-      {$set:{'expenses':[]}}
+      {$set:{'expenses':[]}, 'incomes': []}
 		)
 
     return res.json({ status: "ok", info: user})
+  } catch (e) {
+    console.log(e)
+    res.json({ status: 'error', error: 'invalid token' })
+  }
+  
+})
+
+
+app.post('/api/add-saving-plan', async (req, res) => {
+	const token = req.headers['x-access-token']
+
+	try {
+		const decoded = jwt.verify(token, 'secret123')
+		const id = decoded.id
+		const user = await User.findOne({ id: id })
+
+		await User.updateOne(
+      		{"$push":{"savings": {uid: req.body.uid, name: req.body.name, currentAmount: parseInt(req.body.currentAmount), targetAmount: parseInt(req.body.TargetAmount)}}}
+		)
+			
+		return res.json({ status: "ok", user: user})
   } catch (e) {
     console.log(e)
     res.json({ status: 'error', error: 'invalid token' })

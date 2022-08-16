@@ -2,6 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import SavingsBar from "./savingsbar.tsx";
 import {user} from "../fakeData.js";
+import { useSelector } from 'react-redux'
+
 
 const Container = styled.section`
     width: 100%;
@@ -10,10 +12,11 @@ const Container = styled.section`
     background-color: #101113;
     border-radius: 6px;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     position: relative;
+    gap: 20px;
 `
 
 const Name = styled.p`
@@ -66,21 +69,18 @@ const Savings: React.FC = () => {
         current: number;
     }
 
-    const dummieData: Dummie = {
-        name: "Investment",
-        target: 2500,
-        current: 1500
-    }
+    const userSavings = useSelector(state => state.userReducer.user.savings)
+ 
     // precent: (100 * num) / largest
     
     return (
        <Container>
            <Name>My Savings</Name>
-           {user.savings.map((saving, index) => {
+           {userSavings.map((saving, index) => {
                    return <SavingContainer key={index}>
                    <Details>
                    <SavingName>{saving.name}</SavingName>
-                    <Target>{saving.target}$</Target>
+                    <Target>{saving.targetAmount}$</Target>
                    </Details>
                     <SavingsBar saving={saving} />
                </SavingContainer>

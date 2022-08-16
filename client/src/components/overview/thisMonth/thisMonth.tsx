@@ -38,21 +38,31 @@ const Amount = styled.h1`
 
 const ThisMonth: React.FC = () => {
 
-    const {expenses, incomes} = user
     const currentUser: Object = useSelector(state => state.userReducer.user)
+    const {expenses, incomes}: Object[] = currentUser;
 
-    const totalExpenses: number = expenses.reduce((a, b) => a + b.spent, 0);
-    const totalIncomes: number = incomes.reduce((a, b) => a + b.income, 0); 
+    const totalExpenses: number = expenses.reduce((a, b) => a + b.amount, 0);
+    const totalIncomes: number = incomes.reduce((a, b) => a + b.amount, 0); 
 
     const total: number = totalIncomes - totalExpenses;
     const checkRelations: boolean = totalIncomes > totalExpenses;
-
+    // incomes bigger than expenses = true
+    
     return (
         <Container>
             <Name>This Month</Name>
-            <Amount amount={total > 0}>{total}$</Amount>
-            <OverviewBar width={checkRelations ? 95 : (totalIncomes/ totalExpenses) * 100} spendings={false} />
-            <OverviewBar width={checkRelations ? (totalExpenses / totalIncomes) * 100 :  95} spendings={true} />
+            <Amount amount={total >= 0}>{total}$</Amount>
+            {total === 0 ? 
+            <>
+             <OverviewBar width={1} spendings={false} />
+             <OverviewBar width={1} spendings={true} />
+            </>
+            :
+            <>
+            <OverviewBar width={checkRelations ? 90 : (totalIncomes/ totalExpenses) * 100 - 10} spendings={false} />
+            <OverviewBar width={checkRelations ? (totalExpenses / totalIncomes) * 100 - 10 :  90} spendings={true} />
+            </>
+            }
         </Container>
     )
 }

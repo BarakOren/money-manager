@@ -20,6 +20,7 @@ const Bar = styled.div`
 `
 
 const OverviewBar: React.FC<Props> = ({width, spendings}) => {
+
     const animation = keyframes`
     from {width: 10px;}
     to {width: ${width}%;}

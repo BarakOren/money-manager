@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import { keyframes } from "styled-components";
 import styled from "styled-components";
-
+import { v4 as uuidv4 } from 'uuid';
 
 
 const Container = styled.div`
@@ -144,14 +144,14 @@ const AddButton = styled.button`
 `
 
 
-const Add = () => {
+const AddIncomeOrExpense = () => {
     const [type, setType] = useState("Expense")
     const [category, setCategory] = useState("")
     const [amount, setAmount] = useState(50)
 
     const add = async (e) => {
         e.preventDefault();
-
+        const uid = uuidv4();
 		const response = await fetch('http://localhost:5000/api/addExpense', {
 			method: 'POST',
             headers: {
@@ -159,7 +159,7 @@ const Add = () => {
                 'Content-Type': 'application/json',
 			},
 			body: JSON.stringify({
-				type, category, amount 
+				uid, type, category, amount,   
 			}),
 		})
 		const data = await response.json()
@@ -179,15 +179,33 @@ const Add = () => {
         console.log(data)
     }
 
-    const expensesTypes = ['food', 'grocetires', 'exhange', 'blabla', 'blablabla']
+    // const test = [
+    //         {Rent: []},
+	// 		{Groceries: []},
+	// 		{Housekeeping: []}
+    // ]
+
+    const expensesTypes = ['Rent', 'Groceries', 'Housekeeping']
     const IncomeTypes = ['salary', 'wolt', 'husling']
+
+    // const t = test.find(item => Object.keys(item)[0] === expensesTypes[0])
+    // Object.values(t).forEach(item => console.log(item))
+
+    const test2 = {
+        Rent: [],
+        g: [],
+        b: []
+    }
+
+    const bla = test2['Rent']
+    console.log(bla)
 
     return (
         <Container>
             <Box>
+                <button onClick={() => clear()}>clear </button>
                 <Title>Add Income\Expense</Title>
-                <Form  onSubmit={add}>
-
+                <Form onSubmit={add}>
                     <Row>
                     <RadioLabel checked={type === "Expense" ? "checked" : ""} htmlFor="Expense">Expense</RadioLabel>
                     <RadioTypeButton
@@ -254,4 +272,4 @@ const Add = () => {
     )
 }
 
-export default Add;
+export default AddIncomeOrExpense;

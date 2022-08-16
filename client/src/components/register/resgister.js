@@ -16,7 +16,7 @@ const Container = styled.div`
 
 const Box = styled.div`
     width: 30%;
-    height: 270px;
+    height: 300px;
     align-items: center;
     background-color: #101113;
     padding: 50px;
@@ -112,28 +112,37 @@ const Register = () => {
     const [error, setError] = useState(null)
 
     async function register(e) {
-        setLoading(true)
 		e.preventDefault()
+        setLoading(true)
+        setError(null)
 
-		const response = await fetch('http://localhost:5000/api/register', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({
-				name,
-				email,
-				password,
-			}),
-		})
-
-		const data = await response.json()
-
-		if (data.status === 'ok') {
-			return navigate('/login')
-		} else {
-            setError("Something went wrong.. ")
+        try {
+            const response = await fetch('http://localhost:5000/api/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name,
+                    email,
+                    password,
+                }),
+            })
+    
+            const data = await response.json()
+    
+            if (data.status === 'ok') {
+                return navigate('/login')
+            } else {
+                setError("Something went wrong.. ")
+            }
+        } catch (e) { 
+            console.log(e)
+            setLoading(false)
+            setError("Sorry.. something went wrong.")
         }
+
+		
 	}
 
     return (
@@ -162,9 +171,9 @@ const Register = () => {
                     type="password"
                 />
                 <Button type="submit">submit</Button>
+                {!loading && error && <Error>{error}</Error>}
                 </Form>
                 }
-                {error && <Error>{error}</Error>}
             </Box>
         </Container>
     )

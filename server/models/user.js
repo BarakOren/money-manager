@@ -6,8 +6,13 @@ const User = new mongoose.Schema(
 		email: { type: String, required: true, unique: true },
 		password: { type: String, required: true },
 		quote: { type: String },
-		expenses: [],
-		incomes: []
+		expenses: [
+			{Rent: []},
+			{Groceries: []},
+			{Housekeeping: []}
+		],
+		incomes: [],
+		savings: []
 	},
 	{ collection: 'user-data' }
 )

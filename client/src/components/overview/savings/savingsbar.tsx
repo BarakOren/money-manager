@@ -50,18 +50,18 @@ interface Props {
 }
 
 const SavingsBar: React.FC<Props> = ({saving}) => {
-    const {target, current} = saving
+    const {targetAmount, currentAmount} = saving
 
-    const animation = keyframes`
+    var animation = keyframes`
     from {width: 0px;}
-    to {width: ${(100 * current) / target}%;}
+    to {width: ${currentAmount > targetAmount ? "100%" : `${(100 * currentAmount) / targetAmount}%`}}
     `;
 
     return (
        <Container  >
           <Fill animation={animation} />
-            <Precent>{(100 * current) / target}%</Precent>
-            <Amout>{current}$</Amout>
+            <Precent>{Math.floor((100 * currentAmount) / targetAmount)}%</Precent>
+            <Amout>{currentAmount}$</Amout>
        </Container>
     )
 }

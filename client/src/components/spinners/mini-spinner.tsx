@@ -22,12 +22,15 @@ export const color = keyframes`
   filter: drop-shadow(0 0 5px #3CECEC);
 `
 
-const Span = styled.span`
-    display: inline-block;
+const Div = styled.div`
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
+`
+
+const Span = styled.span`
+  display: inline-block;
     width: 48px;
     height: 48px;
     border: 5px solid #F451E4;
@@ -40,7 +43,9 @@ const Span = styled.span`
 
 const MiniSpinner = () => {
     return (
+      <Div>
         <Span />
+      </Div>
     )
 }
 
