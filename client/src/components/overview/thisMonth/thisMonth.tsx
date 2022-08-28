@@ -1,6 +1,6 @@
 
 import React from "react";
-import styled from "styled-components";
+import styled, {keyframes} from "styled-components";
 import OverviewBar from "./overviewBar.tsx";
 import {user} from "../fakeData.js"
 import { useSelector } from "react-redux";
@@ -27,12 +27,21 @@ const Name = styled.p`
     margin: 0;
 `
 
+const animation = keyframes`
+    from {opacity: 0;}
+    to {opacity: 1;}
+`;
+
 const Amount = styled.h1`
     font-size: 5em;
     color: ${p => p.amount ? "white" : "#F06363"};
     margin: 0;
+    opacity: 0;
+    animation: ${animation} 2s normal forwards ease-in-out;
     z-index: 1;
+    animation-delay: 1s;
     text-shadow: 0 0 10px black;
+
 `
 
 

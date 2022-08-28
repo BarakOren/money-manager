@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import { keyframes } from "styled-components";
 import styled from "styled-components";
 import { v4 as uuidv4 } from 'uuid';
-
+import AddTypeElement from "./addType";
 
 const Container = styled.div`
     width: 85vw;
@@ -106,7 +106,7 @@ const TypeContainer = styled.div`
     width: 100%;
     display: flex;
     justify-content: flex-start;
-    align-items: flex-start;
+    align-items: center;
     flex-wrap: wrap;
     gap: 10px 5px;
 `
@@ -192,13 +192,15 @@ const AddIncomeOrExpense = () => {
     // Object.values(t).forEach(item => console.log(item))
 
     const test2 = {
-        Rent: [],
-        g: [],
-        b: []
+        Rent: [{amount: 200},
+            {amount: 5235}
+        ],
+        g: [{amount: 200}],
+        b: [{amount: 200}]
     }
 
     const bla = test2['Rent']
-    console.log(bla)
+    const total = bla.reduce((a, b) => a + b.amount, 0); 
 
     return (
         <Container>
@@ -228,6 +230,7 @@ const AddIncomeOrExpense = () => {
                     
 
                     <TypeContainer>
+                    <AddTypeElement />
                         {type === "Expense" ?
                         expensesTypes.map(item => {
                             return <div key={item}>
