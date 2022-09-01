@@ -3,6 +3,8 @@ import { keyframes } from "styled-components";
 import styled from "styled-components";
 import { v4 as uuidv4 } from 'uuid';
 import AddTypeElement from "./addType";
+import {setUser} from "../../redux/user/actions"
+import { useDispatch } from "react-redux";
 
 const Container = styled.div`
     width: 85vw;
@@ -148,7 +150,7 @@ const AddIncomeOrExpense = () => {
     const [type, setType] = useState("Expense")
     const [category, setCategory] = useState("")
     const [amount, setAmount] = useState(50)
-
+    const dispatch = useDispatch()
     const add = async (e) => {
         e.preventDefault();
         const uid = uuidv4();
@@ -163,7 +165,8 @@ const AddIncomeOrExpense = () => {
 			}),
 		})
 		const data = await response.json()
-        console.log(data)
+        dispatch(setUser(data.user))
+        console.log(data.user)
     }
 
     const clear = async () => {

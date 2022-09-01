@@ -9,6 +9,11 @@ export const userReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 user: action.payload
             }
+        case "SET_EXPENSES_AND_INCOMES":
+            return {
+               ...state,
+               user: {...state.user, expenses: action.payload.expesnes, incomes: action.payload.incomes} 
+            }
         default:
             return state;
     }

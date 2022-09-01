@@ -9,12 +9,14 @@ import {useSelector} from "react-redux"
 import {useNavigate} from "react-router-dom"
 import AddButton from "../addbutton";
 import Add from "../add/add";
+import TransactionsOverView from "./transactions/transactionsOverview";
 
 const Container = styled.section`
     display: flex;
     margin-left: 15vw;
+    margin-top: 100px;
     width: 85%;
-    height: 100vh;
+    min-height: 800px;
     background-color: #161719;
     flex-direction: row;
     align-items: center;
@@ -23,7 +25,7 @@ const Container = styled.section`
 `
 
 const LeftCol = styled.div`
-    width: 40%;
+    width: 50%;
     height: 100%;
     padding: 0 5%;
     display: flex;
@@ -33,7 +35,8 @@ const LeftCol = styled.div`
 `
 
 const RightCol = styled.div`
-    width: 40%;
+    width: 35%;
+    height: 100%;
     padding: 0 5%;
     display: flex;
     flex-direction: column;
@@ -62,10 +65,11 @@ const OverView: React.FC = ({loading}) => {
             <Header />
             <LeftCol>
                 <ThisMonth />
-                <Savings />
+                <ExpensesByType />
+                <TransactionsOverView />
             </LeftCol>
             <RightCol>
-                <ExpensesByType />
+                <Savings />
             </RightCol>
             <AddButton />
             </>

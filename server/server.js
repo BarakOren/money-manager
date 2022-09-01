@@ -21,6 +21,13 @@ mongoose.connect(dbURI, { useNewUrlParser: true,  useUnifiedTopology: true})
   app.listen(port, () => console.log("Server Is :ive"))
 })
 
+const getUserWithJwt = async (token) => {
+    const decoded = jwt.verify(token, 'secret123')
+    const id = decoded.id
+    const user = User.findOne({ id: id })
+	return user
+}
+
 app.post('/api/register', async (req, res) => {
 	try {
     const newPassword = await bcrypt.hash(req.body.password, 10)
@@ -99,16 +106,14 @@ app.post('/api/quote', async (req, res) => {
 })
 
 app.post('/api/addExpense', async (req, res) => {
-	const token = req.headers['x-access-token']
-
 	try {
-		const decoded = jwt.verify(token, 'secret123')
-		const id = decoded.id
-		const user = await User.findOne({ id: id })
+		const user = await getUserWithJwt(req.headers['x-access-token'])
     	const type = `${req.body.type.toLowerCase()}s`
-		await User.updateOne(
-      		{"$push":{[type]: {uid: req.body.uid, category: req.body.category, amount: parseInt(req.body.amount)}}}
-		)
+		const category = req.body.category
+
+		const find = User.findOne({"expenses" : "rent"},{"expenses":1})
+		console.log(find.incomes)
+
 		return res.json({ status: "ok", user: user})
   } catch (e) {
     console.log(e)
@@ -118,15 +123,10 @@ app.post('/api/addExpense', async (req, res) => {
 })
 
 app.post('/api/clearExpenses', async (req, res) => {
-	const token = req.headers['x-access-token']
-
 	try {
-		const decoded = jwt.verify(token, 'secret123')
-		const id = decoded.id
-		const user = await User.findOne({ id: id })
-
-    await user.updateOne(
-      {$set:{'expenses':[]}, 'incomes': []}
+		const user = await getUserWithJwt(req.headers['x-access-token'])
+    	await user.updateOne(
+      		{$set:{'expenses':[]}, 'incomes': []}
 		)
 
     return res.json({ status: "ok", info: user})
@@ -139,13 +139,8 @@ app.post('/api/clearExpenses', async (req, res) => {
 
 
 app.post('/api/add-saving-plan', async (req, res) => {
-	const token = req.headers['x-access-token']
-
 	try {
-		const decoded = jwt.verify(token, 'secret123')
-		const id = decoded.id
-		const user = await User.findOne({ id: id })
-
+		const user = await getUserWithJwt(req.headers['x-access-token'])
 		await User.updateOne(
       		{"$push":{"savings": {uid: req.body.uid, name: req.body.name, currentAmount: parseInt(req.body.currentAmount), targetAmount: parseInt(req.body.TargetAmount)}}}
 		)

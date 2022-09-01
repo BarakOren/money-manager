@@ -151,7 +151,8 @@ const AddTypeElement = () => {
 
             <AddTypeInput ref={inputRef} type="text"
                 toggle={toggle}
-                onChange={(e) => e.setAddType(e.target.value)}
+                value={addType}
+                onChange={(e) => setAddType(e.target.value)}
             ></AddTypeInput>
             
             <X onClick={() => closeAddSection()} toggle={toggle}>X</X>
