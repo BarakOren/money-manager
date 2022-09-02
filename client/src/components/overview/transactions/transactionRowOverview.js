@@ -10,15 +10,11 @@ const Row = styled.div`
     justify-content: space-between;
     font-size: 16px;
     align-items: center;
-    border-bottom: 2px solid #191a1e;
-
-    > * {
-        width: 20%;
-        text-align: left;
-    }
+    border-bottom: ${p => p.last ? "" : "2px solid #191a1e"} ;
 `
 
 const TransactionTypeContainer = styled.div`
+    width: 22%;
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -40,25 +36,38 @@ const SendIcon = styled.img`
     height: auto;
 `
 
+const RecivedIcon = styled.img`
+    width: 15px;
+    height: 15px;
+`
+
 const WhiteText = styled.p`
     color: white;
     margin: 0;
+    width: 20%;
+    text-align: left;
  
+`
+
+const To = styled.p`
+    width: 10%;color: white;
+    text-align: left;
 `
 
 const Date = styled.p`
     color: #4a4b4f;
-    margin: 0;
+    margin: 0;   width: 20%;
+    text-align: left;
 `
 
-export const TransactionRowOverView = ({item}) => {
+export const TransactionRowOverView = ({item, last}) => {
 
     const {type, date, to, amount} = item
     return (
-        <Row>
+        <Row last={last}>
             <TransactionTypeContainer>
             {type === "recived" && <IconContainer color={'#F451E4'}><SendIcon src={reciveicon}/></IconContainer>}
-            {type === "sent" && <IconContainer color={'#3CECEC'}><SendIcon src={sendicon}/></IconContainer>}
+            {type === "sent" && <IconContainer color={'#3CECEC'}><RecivedIcon src={sendicon}/></IconContainer>}
             
             {type === "recived" && <WhiteText>Recived</WhiteText>}
             {type === "sent" && <WhiteText>Sent</WhiteText>}
@@ -66,8 +75,8 @@ export const TransactionRowOverView = ({item}) => {
    
 
             <Date>{date}</Date>
-            <WhiteText>{to}</WhiteText>
-            <WhiteText>${amount}</WhiteText>
+            <To>{to}</To>
+            <WhiteText>$ {amount}</WhiteText>
         </Row>
     )
 

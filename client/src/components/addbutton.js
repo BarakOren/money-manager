@@ -22,7 +22,7 @@ const Button = styled.button`
     height: 3vw;
     border: none;
     border-radius: 50%;
-    position: absolute;
+    position: fixed;
     bottom: 50px;
     right: 50px;
     font-size: 2vw;

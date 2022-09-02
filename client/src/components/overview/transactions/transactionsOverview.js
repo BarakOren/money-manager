@@ -49,7 +49,7 @@ const TransactionsOverView = () => {
             type: "sent",
             date: "dec 24, 2021",
             to: "mom",
-            amount: 123
+            amount: 12333
         },
         {
             id: 2412414,
@@ -66,8 +66,8 @@ const TransactionsOverView = () => {
                 <Name>Recent Transactions</Name>
                 <ViewAllButton>View All</ViewAllButton>
             </FirstRow>
-            {testData.map(item => {
-                return <TransactionRowOverView key={item.id} item={item}/>
+            {testData.slice(0,2).map((item, index) => {
+                return <TransactionRowOverView key={item.id} last={index === 1} item={item}/>
             })}
         </Container>
     )
